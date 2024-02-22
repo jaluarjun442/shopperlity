@@ -53,7 +53,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/save_product', [AdminController::class, 'save_product'])->name('admin.save_product');
     Route::get('/edit_product/{product_id}', [AdminController::class, 'edit_product'])->name('admin.edit_product');
     Route::post('/update_product', [AdminController::class, 'update_product'])->name('admin.update_product');
-    
+    Route::delete('/delete_product_image/{id}', [AdminController::class, 'delete_product_image'])->name('admin.delete_product_image');
+
     Route::get('/add_product_widget/{product_id}', [AdminController::class, 'add_product_widget'])->name('admin.add_product_widget');
     Route::post('/save_product_widget', [AdminController::class, 'save_product_widget'])->name('admin.save_product_widget');
 

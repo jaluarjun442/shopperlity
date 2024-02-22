@@ -20,7 +20,7 @@
                                     <option value="">Select Option</option>
                                     <?php foreach ($category as $key => $value) { ?>
                                         <option <?php
-                                                if (in_array($value['id'],$product_data['categories']->pluck('category_id')->toArray())) {
+                                                if (in_array($value['id'], $product_data['categories']->pluck('category_id')->toArray())) {
                                                     echo 'selected';
                                                 }
                                                 ?> value="{{ $value['id'] }}">{{ $value['name'] }}</option>
@@ -28,9 +28,22 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputPassword4">Image</label>
-                                <input type="file" class="form-control" id="image" name="image">
+                                <label for="inputPassword4">Images</label>
+                                <div id="images-container" class="row">
+                                    @foreach($product_data['products_images'] as $image)
+                                    <div class="image-item col-md-3">
+                                        <img style="width: 100px;" src="{{ asset('uploads/product/' . $image->image) }}" alt="{{ $image->image }}">
+                                        <button class="btn btn-danger delete-image" data-image-id="{{ $image->id }}" data-url="{{ route('admin.delete_product_image', ['id' => $image->id]) }}">Delete</button>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <!-- File Input for Adding More Images -->
+                                <div class="additional-images">
+                                    <input type="file" class="form-control" name="image[]" multiple accept="image/*">
+                                </div>
+                                <button type="button" class="btn btn-secondary mt-2 add-more-images">Add More</button>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Name</label>
                                 <input type="text" value="<?php echo $product_data['name']; ?>" class="form-control" id="name" name="name" placeholder="Name">
@@ -102,4 +115,37 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        // Add More Images
+        $(document).on('click', '.add-more-images', function() {
+            var $additionalImages = $(this).prev('.additional-images');
+            var $clone = $additionalImages.clone();
+            $clone.find('input[type="file"]').val(''); // Clear the cloned input value
+            $additionalImages.after($clone); // Append the cloned input after the original one
+        });
+        // Delete Image AJAX call
+        $(document).on('click', '.delete-image', function(event) {
+            event.preventDefault(); // Prevent default action
+            var imageId = $(this).data('image-id');
+            var url = $(this).data('url'); // Get the delete URL from data attribute
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Remove the image container from DOM
+                    $(`.delete-image[data-image-id="${imageId}"]`).parent('.image-item').remove();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+    });
+</script>
+
 @endsection

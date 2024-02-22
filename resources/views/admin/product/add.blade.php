@@ -22,7 +22,10 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Image</label>
-                                <input type="file" class="form-control" id="image" name="image">
+                                <div class="image-input-container">
+                                    <input type="file" class="form-control" name="image[]" accept="image/*">
+                                </div>
+                                <button type="button" class="btn btn-secondary add-image">Add More Image</button>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Name</label>
@@ -76,10 +79,20 @@
         })
     });
 </script>
-
 <script>
     $(document).ready(function() {
+        // Add More Image button click event
+        $('.add-image').click(function() {
+            var $container = $(this).prev('.image-input-container');
+            var $clone = $container.clone();
+            $clone.find('input[type="file"]').val(''); // Clear the cloned input value
+            $container.after($clone); // Append the cloned input after the original one
+        });
+
+        // Select2 initialization
         $('.category_id').select2();
+
+        // Form validation
         $("#add_form").validate({
             rules: {
                 category_id: {
@@ -88,9 +101,6 @@
                 name: {
                     required: true,
                 },
-                // image: {
-                //     required: true,
-                // }
             }
         });
     });

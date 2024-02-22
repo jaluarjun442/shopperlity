@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductsCategories;
+use App\Models\ProductsImages;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\Store;
 use Illuminate\Support\Str;
 use DataTables;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -239,12 +242,26 @@ class AdminController extends Controller
             ->addColumn('action', function ($row) {
                 $btn = "";
                 $btn .= '<a target="" href="' . route('admin.edit_product', $row['id']) . '" class="edit mr-2 btn btn-primary btn-sm">Edit</a>';
-                // $btn .= '<a href="javascript:void(0)" class="edit mr-2 btn btn-warning btn-sm">Edit</a>';
-                // $btn .= '<a href="javascript:void(0)" class="edit mr-2 btn btn-primary btn-sm">View</a>';
                 return $btn;
             })
             ->rawColumns(['action', 'image'])
             ->make(true);
+    }
+
+    public function delete_product_image($image_id)
+    {
+        $image = ProductsImages::find($image_id);
+        if (!$image) {
+            return response()->json(['message' => 'Image not found.'], 404);
+        }
+        $filePath = base_path('uploads/product/' . $image->image);
+        if (File::exists($filePath)) {
+            File::delete($filePath);
+            $image->forceDelete();
+            return response()->json(['message' => 'Image deleted successfully.']);
+        } else {
+            return response()->json(['message' => 'Image file not found.'], 404);
+        }
     }
     public function edit_product($product_id)
     {
@@ -263,36 +280,38 @@ class AdminController extends Controller
         $name = $request->post('name') ?? '';
         $body = $request->post('body') ?? '';
 
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
-            $file->move("uploads/product/", $image);
-        } else {
-            $image = $request->post('old_image');
-        }
-
         $slug = Str::slug($request->post('name'), '_');
         $data = Products::where('id', $request->post('id'))
             ->update(
                 [
                     // 'category_id' => $category_id,
                     'name' => $name,
-                    'image' => $image,
                     'slug' => $slug,
                     'body' => $body
                 ]
             );
-            $product_id = $request->post('id');
-            ProductsCategories::where('product_id', $product_id)->forceDelete();
-            foreach($request->category_id as $key => $category_id) { 
-                ProductsCategories::create(
+        $product_id = $request->post('id');
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $file) {
+                $image = $name . '_' . rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
+                $file->move("uploads/product/", $image);
+                ProductsImages::create(
                     [
-                        'category_id' => $category_id,
+                        'image' => $image,
                         'product_id' => $product_id
                     ]
                 );
-            }            
+            }
+        }
+        ProductsCategories::where('product_id', $product_id)->forceDelete();
+        foreach ($request->category_id as $key => $category_id) {
+            ProductsCategories::create(
+                [
+                    'category_id' => $category_id,
+                    'product_id' => $product_id
+                ]
+            );
+        }
         if ($data) {
             return redirect()->route('admin.product')->with('success', 'Data Added Successfully.');
         }
@@ -303,26 +322,39 @@ class AdminController extends Controller
         $name = $request->post('name') ?? '';
         $body = $request->post('body') ?? '';
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
-            $file->move("uploads/product/", $image);
-        } else {
-            $image = 'default.png';
-        }
+
 
         $slug = Str::slug($request->post('name'), '_');
         $data = Products::create(
             [
-                // 'category_id' => $category_id,
                 'name' => $name,
-                'image' => $image,
+                'image' => "",
                 'slug' => $slug,
                 'body' => $body
             ]
         );
         $product_id = $data['id'];
-        foreach($request->category_id as $key => $category_id) { 
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $file) {
+                $image = $name . '_' . rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
+                $file->move("uploads/product/", $image);
+                ProductsImages::create(
+                    [
+                        'image' => $image,
+                        'product_id' => $product_id
+                    ]
+                );
+            }
+        } else {
+            $image = 'default.png';
+            ProductsImages::create(
+                [
+                    'image' => $image,
+                    'product_id' => $product_id
+                ]
+            );
+        }
+        foreach ($request->category_id as $key => $category_id) {
             ProductsCategories::create(
                 [
                     'category_id' => $category_id,
