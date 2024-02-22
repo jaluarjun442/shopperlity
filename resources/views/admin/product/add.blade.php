@@ -13,7 +13,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Category</label>
-                                <select name="category_id" id="category_id" class="form-control">
+                                <select multiple="multiple" name="category_id[]" id="category_id" class="form-control category_id">
                                     <option value="">Select Option</option>
                                     <?php foreach ($category as $key => $value) { ?>
                                         <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
@@ -79,6 +79,7 @@
 
 <script>
     $(document).ready(function() {
+        $('.category_id').select2();
         $("#add_form").validate({
             rules: {
                 category_id: {

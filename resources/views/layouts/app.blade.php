@@ -18,6 +18,7 @@
     <script src='{{ asset("admin_asset/dataTables.bootstrap4.min.js") }}'></script>
     <script src='{{ asset("admin_asset/ckeditor/ckeditor.js") }}'></script>
     <script src='{{ asset("admin_asset/ckfinder/ckfinder.js") }}'></script>
+    <script src='{{ asset("admin_asset/select2.min.js") }}'></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,6 +28,7 @@
     <link href='{{ asset("admin_asset/bootstrap.min.css") }}' rel="stylesheet" />
     <link href='{{ asset("admin_asset/jquery.dataTables.min.css") }}' rel="stylesheet" />
     <link href='{{ asset("admin_asset/dataTables.bootstrap4.min.css") }}' rel="stylesheet" />
+    <link href='{{ asset("admin_asset/select2.min.css") }}' rel="stylesheet" />
     <style>
         .error {
             color: red;

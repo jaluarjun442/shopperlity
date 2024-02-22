@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductsCategories;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Products;
@@ -166,12 +167,14 @@ class AdminController extends Controller
     public function edit_category($category_id)
     {
         $category_data = Category::where('id', $category_id)->first();
-        return view('admin/category/edit', compact('category_id', 'category_data'));
+        $category = Category::where('id', '!=', $category_id)->get();
+        return view('admin/category/edit', compact('category_id', 'category_data', 'category'));
     }
     public function update_category(Request $request)
     {
         $name = $request->post('name');
         $slug = Str::slug($request->post('name'));
+        $parent_category_id = $request->post('parent_category_id') ?? null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
@@ -184,6 +187,7 @@ class AdminController extends Controller
             ->update(
                 [
                     'name' => $name,
+                    'parent_category_id' => $parent_category_id,
                     'image' => $image,
                     'slug' => $slug,
                 ]
@@ -194,11 +198,13 @@ class AdminController extends Controller
     }
     public function add_category()
     {
-        return view('admin/category/add');
+        $category = Category::all();
+        return view('admin/category/add', compact('category'));
     }
     public function save_category(Request $request)
     {
         $name = $request->post('name');
+        $parent_category_id = $request->post('parent_category_id') ?? null;
         $file = $request->file('image');
         $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
         $file->move("uploads/category/", $image);
@@ -206,6 +212,7 @@ class AdminController extends Controller
 
         $data = Category::create(
             [
+                'parent_category_id' => $parent_category_id,
                 'name' => $name,
                 'image' => $image,
                 'slug' => $slug,
@@ -231,7 +238,6 @@ class AdminController extends Controller
             })
             ->addColumn('action', function ($row) {
                 $btn = "";
-                $btn .= '<a target="_BLANK" href="' . route('admin.add_product_widget', $row['id']) . '" class="edit mr-2 btn btn-info btn-sm">Widgets</a>';
                 $btn .= '<a target="" href="' . route('admin.edit_product', $row['id']) . '" class="edit mr-2 btn btn-primary btn-sm">Edit</a>';
                 // $btn .= '<a href="javascript:void(0)" class="edit mr-2 btn btn-warning btn-sm">Edit</a>';
                 // $btn .= '<a href="javascript:void(0)" class="edit mr-2 btn btn-primary btn-sm">View</a>';
@@ -242,7 +248,7 @@ class AdminController extends Controller
     }
     public function edit_product($product_id)
     {
-        $product_data = product::where('id', $product_id)->first();
+        $product_data = Products::with(['categories'])->where('id', $product_id)->first();
         $category = Category::all();
         return view('admin/product/edit', compact('product_id', 'product_data', 'category'));
     }
@@ -262,21 +268,31 @@ class AdminController extends Controller
             $file = $request->file('image');
             $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
             $file->move("uploads/product/", $image);
-        }else{
+        } else {
             $image = $request->post('old_image');
         }
 
         $slug = Str::slug($request->post('name'), '_');
-        $data = product::where('id', $request->post('id'))
+        $data = Products::where('id', $request->post('id'))
             ->update(
                 [
-                    'category_id' => $category_id,
+                    // 'category_id' => $category_id,
                     'name' => $name,
                     'image' => $image,
                     'slug' => $slug,
                     'body' => $body
                 ]
             );
+            $product_id = $request->post('id');
+            ProductsCategories::where('product_id', $product_id)->forceDelete();
+            foreach($request->category_id as $key => $category_id) { 
+                ProductsCategories::create(
+                    [
+                        'category_id' => $category_id,
+                        'product_id' => $product_id
+                    ]
+                );
+            }            
         if ($data) {
             return redirect()->route('admin.product')->with('success', 'Data Added Successfully.');
         }
@@ -287,7 +303,6 @@ class AdminController extends Controller
         $name = $request->post('name') ?? '';
         $body = $request->post('body') ?? '';
 
-
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
@@ -297,18 +312,26 @@ class AdminController extends Controller
         }
 
         $slug = Str::slug($request->post('name'), '_');
-        $data = product::create(
+        $data = Products::create(
             [
-                'category_id' => $category_id,
+                // 'category_id' => $category_id,
                 'name' => $name,
                 'image' => $image,
                 'slug' => $slug,
                 'body' => $body
             ]
         );
+        $product_id = $data['id'];
+        foreach($request->category_id as $key => $category_id) { 
+            ProductsCategories::create(
+                [
+                    'category_id' => $category_id,
+                    'product_id' => $product_id
+                ]
+            );
+        }
         if ($data) {
             return redirect()->route('admin.product')->with('success', 'Data Added Successfully.');
         }
     }
-
 }

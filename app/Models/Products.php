@@ -12,8 +12,13 @@ class Products extends Model
     protected $guarded = [];
     public $table = 'products';
 
-    public function category(){
-        return $this->hasOne(Category::class, 'id', 'category_id');
+    // public function category(){
+    //     return $this->hasOne(Category::class, 'id', 'category_id');
+    // }
+    public function products_images(){
+        return $this->hasMany(ProductsImages::class, 'id', 'product_id');
     }
-  
+    public function categories(){
+        return $this->hasMany(ProductsCategories::class, 'product_id', 'id');
+    }
 }

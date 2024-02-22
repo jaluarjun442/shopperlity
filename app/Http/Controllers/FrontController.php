@@ -51,7 +51,7 @@ class FrontController extends Controller
     }
     public function product($id)
     {
-        $data = Products::with(['category','product_widget'])
+        $data = Products::with(['category'])
             ->where('id', $id)
             ->first();
         $related_data = Products::with('category')
