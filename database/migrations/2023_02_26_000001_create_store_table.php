@@ -26,6 +26,9 @@ class CreateStoreTable extends Migration
             $table->string('pan_card')->nullable();
             $table->text('about_us_tag')->nullable();
             $table->string('status')->default('inactive')->comment('active,inactive')->nullable();
+            $table->text('header_script')->nullable();
+            $table->text('sidebar_script')->nullable();
+            $table->text('footer_script')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

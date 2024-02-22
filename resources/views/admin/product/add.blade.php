@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Add Article</div>
+                <div class="card-header">Add product</div>
                 <div class="card-body">
 
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.save_article') }}" id="add_form" name="add_form">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.save_product') }}" id="add_form" name="add_form">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -31,14 +31,6 @@
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Body</label>
                                 <textarea class="form-control" id="body" name="body"></textarea>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Amazon Link</label>
-                                <input type="text" class="form-control" id="amazon_link" name="amazon_link" placeholder="Amazon Link">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Amazon Widget</label>
-                                <textarea class="form-control" id="amazon_widget" name="amazon_widget"></textarea>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

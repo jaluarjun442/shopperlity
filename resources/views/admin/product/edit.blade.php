@@ -5,13 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Edit Article</div>
+                <div class="card-header">Edit product</div>
                 <div class="card-body">
 
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.update_article') }}" id="add_form" name="add_form">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.update_product') }}" id="add_form" name="add_form">
                         @csrf
-                        <input type="hidden" name="id" id="id" value="{{ $article_data['id'] }}" />
-                        <input type="hidden" name="old_image" id="old_image" value="{{ $article_data['image'] }}" />
+                        <input type="hidden" name="id" id="id" value="{{ $product_data['id'] }}" />
+                        <input type="hidden" name="old_image" id="old_image" value="{{ $product_data['image'] }}" />
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -20,7 +20,7 @@
                                     <option value="">Select Option</option>
                                     <?php foreach ($category as $key => $value) { ?>
                                         <option <?php
-                                                if ($article_data['category_id'] == $value['id']) {
+                                                if ($product_data['category_id'] == $value['id']) {
                                                     echo 'selected';
                                                 }
                                                 ?> value="{{ $value['id'] }}">{{ $value['name'] }}</option>
@@ -33,19 +33,11 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Name</label>
-                                <input type="text" value="<?php echo $article_data['name']; ?>" class="form-control" id="name" name="name" placeholder="Name">
+                                <input type="text" value="<?php echo $product_data['name']; ?>" class="form-control" id="name" name="name" placeholder="Name">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Body</label>
-                                <textarea class="form-control" id="body" name="body"><?php echo $article_data['body']; ?></textarea>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Amazon Link</label>
-                                <input type="text" class="form-control" id="amazon_link" name="amazon_link" placeholder="Amazon Link">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Amazon Widget</label>
-                                <textarea class="form-control" id="amazon_widget" name="amazon_widget"></textarea>
+                                <textarea class="form-control" id="body" name="body"><?php echo $product_data['body']; ?></textarea>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

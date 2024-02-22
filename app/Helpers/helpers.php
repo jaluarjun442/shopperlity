@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\Category;
-use App\Models\Article;
+use App\Models\Product;
 use App\Models\Store;
 
 if (!function_exists('all_category')) {
@@ -12,11 +12,11 @@ if (!function_exists('all_category')) {
         return $all_category_data;
     }
 }
-if (!function_exists('popular_article')) {
-    function popular_article($limit)
+if (!function_exists('popular_product')) {
+    function popular_product($limit)
     {
-        $popular_article_data = Article::limit($limit)->inRandomOrder()->get();
-        return $popular_article_data;
+        $popular_product_data = Product::limit($limit)->inRandomOrder()->get();
+        return $popular_product_data;
     }
 }
 if (!function_exists('store_data')) {

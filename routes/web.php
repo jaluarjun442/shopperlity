@@ -23,7 +23,7 @@ Auth::routes(['register' => false]);
 Route::get('/', [FrontController::class, 'index'])->name('home');
 
 
-Route::get('/article/{id}/{slug}', [FrontController::class, 'article'])->name('article');
+Route::get('/product/{id}/{slug}', [FrontController::class, 'product'])->name('product');
 Route::get('/category/{id}/{slug}', [FrontController::class, 'category'])->name('category');
 Route::get('/page/{slug}', [FrontController::class, 'page'])->name('page');
 
@@ -47,15 +47,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/store_links/{store_id}', [AdminController::class, 'store_links'])->name('admin.store_links');
     Route::post('/save_store_links', [AdminController::class, 'save_store_links'])->name('admin.save_store_links');
     
-    Route::get('/article', [AdminController::class, 'article'])->name('admin.article');
-    Route::get('/get_article', [AdminController::class, 'get_article'])->name('admin.get_article');
-    Route::get('/add_article', [AdminController::class, 'add_article'])->name('admin.add_article');
-    Route::post('/save_article', [AdminController::class, 'save_article'])->name('admin.save_article');
-    Route::get('/edit_article/{article_id}', [AdminController::class, 'edit_article'])->name('admin.edit_article');
-    Route::post('/update_article', [AdminController::class, 'update_article'])->name('admin.update_article');
+    Route::get('/product', [AdminController::class, 'product'])->name('admin.product');
+    Route::get('/get_product', [AdminController::class, 'get_product'])->name('admin.get_product');
+    Route::get('/add_product', [AdminController::class, 'add_product'])->name('admin.add_product');
+    Route::post('/save_product', [AdminController::class, 'save_product'])->name('admin.save_product');
+    Route::get('/edit_product/{product_id}', [AdminController::class, 'edit_product'])->name('admin.edit_product');
+    Route::post('/update_product', [AdminController::class, 'update_product'])->name('admin.update_product');
     
-    Route::get('/add_article_widget/{article_id}', [AdminController::class, 'add_article_widget'])->name('admin.add_article_widget');
-    Route::post('/save_article_widget', [AdminController::class, 'save_article_widget'])->name('admin.save_article_widget');
+    Route::get('/add_product_widget/{product_id}', [AdminController::class, 'add_product_widget'])->name('admin.add_product_widget');
+    Route::post('/save_product_widget', [AdminController::class, 'save_product_widget'])->name('admin.save_product_widget');
 
-    Route::post('ck_article_upload', [AdminController::class, 'ck_article_upload'])->name('admin.ck_article_upload');
+    Route::post('ck_product_upload', [AdminController::class, 'ck_product_upload'])->name('admin.ck_product_upload');
 });

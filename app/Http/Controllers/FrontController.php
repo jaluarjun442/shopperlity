@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
+use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
 
@@ -25,7 +25,7 @@ class FrontController extends Controller
      */
     public function index()
     {
-        $data = Article::with('category')->latest()->paginate(6);
+        $data = Product::with('category')->latest()->paginate(6);
         return view('welcome', compact('data'));
     }
     public function page($page)
@@ -42,23 +42,23 @@ class FrontController extends Controller
     }
     public function category($category_id)
     {
-        $data = Article::with('category')
+        $data = Product::with('category')
             ->where('category_id', $category_id)
             ->orderBy('id','desc')
             ->latest()
             ->paginate(6);
         return view('welcome', compact('data'));
     }
-    public function article($id)
+    public function product($id)
     {
-        $data = Article::with(['category','article_widget'])
+        $data = Product::with(['category','product_widget'])
             ->where('id', $id)
             ->first();
-        $related_data = Article::with('category')
+        $related_data = Product::with('category')
             ->where('category_id', $data['category_id'])
             ->limit(4)
             ->get();
-        $prev_next_data = Article::limit(2)->inRandomOrder()->get();
-        return view('article', compact('data', 'related_data', 'prev_next_data'));
+        $prev_next_data = Product::limit(2)->inRandomOrder()->get();
+        return view('product', compact('data', 'related_data', 'prev_next_data'));
     }
 }

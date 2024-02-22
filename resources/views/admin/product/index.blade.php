@@ -9,8 +9,8 @@
             @endif
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    Article
-                    <a class="btn btn-sm btn-primary" href="{{ route('admin.add_article') }}">Add</a>
+                    Product
+                    <a class="btn btn-sm btn-primary" href="{{ route('admin.add_product') }}">Add</a>
                 </div>
                 <div class="card-body">
                     <table class="table  table-bordered datatable">
@@ -35,7 +35,7 @@
         var table = $('.datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.get_article') }}",
+            ajax: "{{ route('admin.get_product') }}",
             columns: [{
                     data: 'id',
                     name: 'id'

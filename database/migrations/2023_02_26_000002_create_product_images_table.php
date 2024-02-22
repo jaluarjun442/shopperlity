@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddArticleHeaderScriptToStore extends Migration
+class CreateProductImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddArticleHeaderScriptToStore extends Migration
      */
     public function up()
     {
-        Schema::table('store', function (Blueprint $table) {
-            $table->text('article_header_script')->nullable();
-            $table->text('article_footer_script')->nullable();
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id();
+            $table->integer('product_id')->nullable();
+            $table->text('image')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,8 +29,6 @@ class AddArticleHeaderScriptToStore extends Migration
      */
     public function down()
     {
-        Schema::table('store', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('product_images');
     }
 }

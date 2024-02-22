@@ -12,8 +12,4 @@ class Store extends Model
     protected $guarded = [];
     public $table = 'store';
 
-    
-    public function store_links(){
-        return $this->hasMany(StoreLinks::class, 'store_id', 'id');
-    }
 }

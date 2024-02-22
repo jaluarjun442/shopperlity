@@ -19,14 +19,13 @@
                     <div class="utf_post_content-area">
                         <div class="post-media post-featured-image">
                             <a href="#" class="gallery-popup">
-                                <img src="<?php echo  asset('uploads/article') . '/' . $data['image']; ?>" class="img-fluid" alt="">
+                                <img src="<?php echo  asset('uploads/product') . '/' . $data['image']; ?>" class="img-fluid" alt="">
                             </a>
                         </div>
                         <div style="text-align: center;" class="entry-content">
-                            <?php echo store_data()['article_header_script']; ?>
                             <?php
-                            if ($data['article_widget']->where('store_id', store_id())->first()) {
-                                $widget_data = $data['article_widget']->where('store_id', store_id())->first()['widget_data'];
+                            if ($data['product_widget']->where('store_id', store_id())->first()) {
+                                $widget_data = $data['product_widget']->where('store_id', store_id())->first()['widget_data'];
                             } else {
                                 $widget_data = "";
                             }
@@ -40,7 +39,6 @@
                             <?php
                             echo $widget_data;
                             ?>
-                            <?php echo store_data()['article_footer_script']; ?>
                         </div>
                         <!-- <div class="tags-area clearfix">
                             <div class="post-tags">
@@ -66,12 +64,12 @@
                 <nav class="post-navigation clearfix">
                     <div class="post-previous">
 
-                        <a href="<?php echo route('article', [$prev_next_data[0]['id'], $prev_next_data[0]['slug']]); ?>"> <span><i class="fa fa-angle-left"></i>Previous Post</span>
+                        <a href="<?php echo route('product', [$prev_next_data[0]['id'], $prev_next_data[0]['slug']]); ?>"> <span><i class="fa fa-angle-left"></i>Previous Post</span>
                             <h3>{{ substr($prev_next_data[0]['name'], 0, 80); }}</h3>
                         </a>
                     </div>
                     <div class="post-next">
-                        <a href="<?php echo route('article', [$prev_next_data[1]['id'], $prev_next_data[1]['slug']]); ?>"> <span>Next Post <i class="fa fa-angle-right"></i></span>
+                        <a href="<?php echo route('product', [$prev_next_data[1]['id'], $prev_next_data[1]['slug']]); ?>"> <span>Next Post <i class="fa fa-angle-right"></i></span>
                             <h3>{{ substr($prev_next_data[1]['name'], 0, 80); }}</h3>
                         </a>
                     </div>
@@ -85,14 +83,14 @@
                             <div class="item">
                                 <div class="utf_post_block_style clearfix">
                                     <div class="utf_post_thumb">
-                                        <a href="<?php echo route('article', [$item['id'], $item['slug']]); ?>">
-                                            <img class="img-fluid" src="<?php echo  asset('uploads/article') . '/' . $item['image']; ?>" alt="" />
+                                        <a href="<?php echo route('product', [$item['id'], $item['slug']]); ?>">
+                                            <img class="img-fluid" src="<?php echo  asset('uploads/product') . '/' . $item['image']; ?>" alt="" />
                                         </a>
                                     </div>
                                     <a class="utf_post_cat" href="#">Health</a>
                                     <div class="utf_post_content">
                                         <h2 class="utf_post_title title-medium">
-                                            <a href="<?php echo route('article', [$item['id'], $item['slug']]); ?>">{{ substr($item['name'], 0, 35); }}</a>
+                                            <a href="<?php echo route('product', [$item['id'], $item['slug']]); ?>">{{ substr($item['name'], 0, 35); }}</a>
                                         </h2>
                                         <!-- <div class="utf_post_meta"> <span class="utf_post_date"><i class="fa fa-clock-o"></i> 25 Jan, 2022</span> </div> -->
                                     </div>

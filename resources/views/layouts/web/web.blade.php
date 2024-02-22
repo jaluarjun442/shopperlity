@@ -71,32 +71,7 @@
 
     <div class="body-inner">
         <!-- Topbar Start -->
-        <div id="top-bar" class="top-bar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <ul class="unstyled top-nav">
-                            <li>
-                                <a style="line-height: normal;" href="#">Trending</a>
-                            </li>
-                            <li>
-                                <?php
-                                $trend = popular_article(1)[0];
-                                ?>
-                                <a href="<?php echo route('article', [$trend['id'], $trend['slug']]); ?>">
-                                    {{ substr($trend['name'], 0, 80); }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- <div class="col-md-4 top-social text-lg-right text-md-center">
-                        <ul class="unstyled">
-                            <li> <a title="Facebook" href="#"> <span class="social-icon"><i class="fa fa-facebook"></i></span> </a> <a title="Twitter" href="#"> <span class="social-icon"><i class="fa fa-twitter"></i></span> </a> <a title="Google+" href="#"> <span class="social-icon"><i class="fa fa-google-plus"></i></span> </a> <a title="Linkdin" href="#"> <span class="social-icon"><i class="fa fa-linkedin"></i></span> </a> <a title="Rss" href="#"> <span class="social-icon"><i class="fa fa-rss"></i></span> </a> <a title="Skype" href="#"> <span class="social-icon"><i class="fa fa-skype"></i></span> </a> </li>
-                        </ul>
-                    </div> -->
-                </div>
-            </div>
-        </div>
+      
         <!-- Topbar End -->
 
         <!-- Header start -->
@@ -224,32 +199,6 @@
                             </ul>
                         </div>
 
-                        <div class="col-lg-4 col-sm-12 col-xs-12 footer-widget">
-                            <h3 class="widget-title">Random Post</h3>
-                            <div class="utf_list_post_block">
-                                <ul class="utf_list_post">
-                                    <?php foreach (popular_article(3) as $key => $item) { ?>
-                                        <li class="clearfix">
-                                            <div class="utf_post_block_style post-float clearfix">
-                                                <a href="<?php echo route('article', [$item['id'], $item['slug']]); ?>">
-                                                    <div class="utf_post_thumb">
-                                                        <img class="img-fluid" src="<?php echo  asset('uploads/article') . '/' . $item['image']; ?>" alt="" />
-                                                    </div>
-                                                </a>
-                                                <div class="utf_post_content">
-                                                    <h2 class="utf_post_title title-small">
-                                                        <a href="<?php echo route('article', [$item['id'], $item['slug']]); ?>">
-                                                            {{ substr($item['name'], 0, 80); }}
-                                                        </a>
-                                                    </h2>
-                                                    <!-- <div class="utf_post_meta"> <span class="utf_post_date"><i class="fa fa-clock-o"></i> 25 Jan, 2022</span> </div> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
