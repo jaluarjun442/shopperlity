@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Products;
 use App\Models\Store;
 use Illuminate\Support\Str;
 use DataTables;
@@ -223,7 +223,7 @@ class AdminController extends Controller
     }
     public function get_product(Request $request)
     {
-        $data = Product::orderBy('id', 'desc');
+        $data = Products::orderBy('id', 'desc');
         return DataTables::of($data)
             ->addIndexColumn()
             ->editColumn('image', function ($row) {

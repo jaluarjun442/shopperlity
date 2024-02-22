@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Products;
 use App\Models\Store;
 use Illuminate\Http\Request;
 
@@ -25,7 +25,7 @@ class FrontController extends Controller
      */
     public function index()
     {
-        $data = Product::with('category')->latest()->paginate(6);
+        $data = Products::with('category')->latest()->paginate(6);
         return view('welcome', compact('data'));
     }
     public function page($page)
@@ -42,7 +42,7 @@ class FrontController extends Controller
     }
     public function category($category_id)
     {
-        $data = Product::with('category')
+        $data = Products::with('category')
             ->where('category_id', $category_id)
             ->orderBy('id','desc')
             ->latest()
@@ -51,14 +51,14 @@ class FrontController extends Controller
     }
     public function product($id)
     {
-        $data = Product::with(['category','product_widget'])
+        $data = Products::with(['category','product_widget'])
             ->where('id', $id)
             ->first();
-        $related_data = Product::with('category')
+        $related_data = Products::with('category')
             ->where('category_id', $data['category_id'])
             ->limit(4)
             ->get();
-        $prev_next_data = Product::limit(2)->inRandomOrder()->get();
+        $prev_next_data = Products::limit(2)->inRandomOrder()->get();
         return view('product', compact('data', 'related_data', 'prev_next_data'));
     }
 }

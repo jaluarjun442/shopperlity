@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Products;
 use App\Models\Store;
 
 if (!function_exists('all_category')) {
@@ -15,7 +15,7 @@ if (!function_exists('all_category')) {
 if (!function_exists('popular_product')) {
     function popular_product($limit)
     {
-        $popular_product_data = Product::limit($limit)->inRandomOrder()->get();
+        $popular_product_data = Products::limit($limit)->inRandomOrder()->get();
         return $popular_product_data;
     }
 }
