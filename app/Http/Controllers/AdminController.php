@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductsAttributes;
 use App\Models\ProductsCategories;
 use App\Models\ProductsImages;
 use Illuminate\Http\Request;
@@ -248,6 +249,16 @@ class AdminController extends Controller
             ->make(true);
     }
 
+    public function delete_product_attribute($id)
+    {
+        try {
+            $attribute = ProductsAttributes::findOrFail($id);
+            $attribute->delete();
+            return response()->json(['message' => 'Product attribute deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete product attribute'], 500);
+        }
+    }
     public function delete_product_image($image_id)
     {
         $image = ProductsImages::find($image_id);
@@ -265,7 +276,7 @@ class AdminController extends Controller
     }
     public function edit_product($product_id)
     {
-        $product_data = Products::with(['categories'])->where('id', $product_id)->first();
+        $product_data = Products::with(['categories', 'products_attributes'])->where('id', $product_id)->first();
         $category = Category::all();
         return view('admin/product/edit', compact('product_id', 'product_data', 'category'));
     }
@@ -361,6 +372,15 @@ class AdminController extends Controller
                     'product_id' => $product_id
                 ]
             );
+        }
+        // Save product attributes
+        $attributes = $request->post('attributes') ?? [];
+        foreach ($attributes as $attribute) {
+            ProductsAttributes::create([
+                'name' => $attribute['name'],
+                'value' => $attribute['value'],
+                'product_id' => $product_id
+            ]);
         }
         if ($data) {
             return redirect()->route('admin.product')->with('success', 'Data Added Successfully.');

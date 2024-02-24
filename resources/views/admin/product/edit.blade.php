@@ -52,6 +52,25 @@
                                 <label for="inputEmail4">Body</label>
                                 <textarea class="form-control" id="body" name="body"><?php echo $product_data['body']; ?></textarea>
                             </div>
+                            <div class="form-group col-md-12">
+                                <label for="inputPassword4">Attributes</label>
+                                <div class="attribute-input-container">
+                                    @foreach($product_data['products_attributes'] as $attribute)
+                                    <div class="row attribute-row">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="attributes[{{ $loop->index }}][name]" placeholder="Attribute Name" value="{{ $attribute->name }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="attributes[{{ $loop->index }}][value]" placeholder="Attribute Value" value="{{ $attribute->value }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-danger delete-attribute" data-attribute-id="{{ $attribute->id }}">Delete</button>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <button type="button" class="btn btn-secondary mt-2 add-attribute">Add More Attribute</button>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -124,6 +143,19 @@
             $clone.find('input[type="file"]').val(''); // Clear the cloned input value
             $additionalImages.after($clone); // Append the cloned input after the original one
         });
+        $(document).on('click', '.add-attribute', function() {
+            var $container = $(this).prev('.attribute-input-container');
+            var $clone = $container.find('.attribute-row:first').clone();
+            $clone.find('input').val(''); // Clear the cloned input values
+            $container.append($clone); // Append the cloned input after the original one
+
+            // Update input names for the new attribute inputs
+            $clone.find('input[name^="attributes"]').each(function() {
+                var index = $container.find('.attribute-row').length - 1; // Get the new index
+                var newName = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']'); // Update index in name attribute
+                $(this).attr('name', newName); // Set the updated name attribute
+            });
+        });
         // Delete Image AJAX call
         $(document).on('click', '.delete-image', function(event) {
             event.preventDefault(); // Prevent default action
@@ -144,7 +176,27 @@
                 }
             });
         });
-
+        // Delete Attribute AJAX call
+        $(document).on('click', '.delete-attribute', function(event) {
+            event.preventDefault(); // Prevent default action
+            var attributeId = $(this).data('attribute-id');
+            var url = '{{ route("admin.delete_product_attribute", ":id") }}';
+            url = url.replace(':id', attributeId);
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Remove the attribute row from DOM
+                    $(`.delete-attribute[data-attribute-id="${attributeId}"]`).closest('.attribute-row').remove();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
     });
 </script>
 
