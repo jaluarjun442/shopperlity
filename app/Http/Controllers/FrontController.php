@@ -25,7 +25,7 @@ class FrontController extends Controller
      */
     public function index()
     {
-        $data = Products::with('category')->latest()->paginate(6);
+        $data = Products::latest()->paginate(6);
         return view('welcome', compact('data'));
     }
     public function page($page)
