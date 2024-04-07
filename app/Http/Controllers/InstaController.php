@@ -25,6 +25,11 @@ class InstaController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function api_index()
+    {
+        $accounts = InstaAccount::paginate(9);
+        return $accounts;
+    }
     public function insta_account()
     {
         return view('admin/insta_account/index');
