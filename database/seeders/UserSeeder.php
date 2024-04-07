@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
     {
         User::firstOrCreate([
             'name' => 'Admin',
-            'email' => env('ADMIN_EMAIL'),
-            'password' => Hash::make(env('ADMIN_PASSWORD'))
+            'email' => env('ADMIN_EMAIL','admin@gmail.com'),
+            'password' => Hash::make(env('ADMIN_PASSWORD','00000000'))
         ]);
     }
 }
