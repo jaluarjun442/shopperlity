@@ -207,10 +207,16 @@ class AdminController extends Controller
     }
     public function save_category(Request $request)
     {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg', // max 2MB
+            'name' => 'required|string',
+            'parent_category_id' => 'nullable|integer', // Assuming parent_category_id is an integer
+        ]);
         $name = $request->post('name');
         $parent_category_id = $request->post('parent_category_id') ?? null;
         $file = $request->file('image');
-        $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
+        $image = $name ."." . $file->getClientOriginalExtension();
+        // $image = $name . rand(1111111111, 9999999999) . "." . $file->getClientOriginalExtension();
         $file->move("uploads/category/", $image);
         $slug = Str::slug($request->post('name'));
 

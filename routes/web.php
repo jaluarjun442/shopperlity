@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InstaController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -60,4 +61,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/save_product_widget', [AdminController::class, 'save_product_widget'])->name('admin.save_product_widget');
 
     Route::post('ck_product_upload', [AdminController::class, 'ck_product_upload'])->name('admin.ck_product_upload');
+
+    Route::get('/insta_account', [InstaController::class, 'insta_account'])->name('admin.insta_account');
+    Route::get('/get_insta_account', [InstaController::class, 'get_insta_account'])->name('admin.get_insta_account');
+    Route::get('/add_insta_account', [InstaController::class, 'add_insta_account'])->name('admin.add_insta_account');
+    Route::post('/save_insta_account', [InstaController::class, 'save_insta_account'])->name('admin.save_insta_account');
+    Route::get('/edit_insta_account/{insta_account_id}', [InstaController::class, 'edit_insta_account'])->name('admin.edit_insta_account');
+    Route::post('/update_insta_account', [InstaController::class, 'update_insta_account'])->name('admin.update_insta_account');
+    Route::get('/delete_insta_account/{insta_account_id}', [InstaController::class, 'delete_insta_account'])->name('admin.delete_insta_account');
+    
 });

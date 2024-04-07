@@ -60,6 +60,7 @@
                         <a class="nav-link" href="{{ route('admin.category') }}">Category</a>
                         <a class="nav-link" href="{{ route('admin.product') }}">Product</a>
                         <a class="nav-link" href="{{ route('admin_home') }}">Settigns</a>
+                        <a class="nav-link" href="{{ route('admin.insta_account') }}">Insta Account</a>
                     </ul>
                     @endguest
 
