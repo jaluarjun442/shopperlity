@@ -34,4 +34,13 @@ class ApiController extends Controller
         });
         return $accounts;
     }
+    public function insta_account_random()
+    {
+        $accounts = InstaAccount::inRandomOrder()->limit(4)->get();
+        $accounts->transform(function ($account) {
+            $account->image = asset('uploads/insta_account') . '/' . $account->image;
+            return $account;
+        });
+        return $accounts;
+    }
 }

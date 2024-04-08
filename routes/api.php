@@ -21,4 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('insta_account')->group(function () {
     Route::get('/', [ApiController::class, 'insta_account']);
+    Route::get('/random', [ApiController::class, 'insta_account_random']);
 });
