@@ -23,3 +23,7 @@ Route::prefix('insta_account')->group(function () {
     Route::get('/', [ApiController::class, 'insta_account']);
     Route::get('/random', [ApiController::class, 'insta_account_random']);
 });
+Route::prefix('insta_10k_follow')->group(function () {
+    Route::get('/', [ApiController::class, 'insta_10k_follow']);
+    Route::post('/save', [ApiController::class, 'save_insta_10k_follow']);
+});

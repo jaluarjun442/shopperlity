@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Insta10kFollow;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\InstaAccount;
@@ -42,5 +43,21 @@ class ApiController extends Controller
             return $account;
         });
         return $accounts;
+    }
+    public function insta_10k_follow()
+    {
+        $accounts = Insta10kFollow::orderBy('created_at', 'desc')->paginate(9);
+        return $accounts;
+    }
+    public function save_insta_10k_follow(Request $request)
+    {
+        // Save the data into the database
+        $instaFollow = new Insta10kFollow();
+        $instaFollow->name = $request['name'];
+        $instaFollow->username = $request['username'];
+        $instaFollow->whatsapp = $request['whatsapp'];
+        $instaFollow->save();
+        // Return a response indicating success
+        return response()->json(['message' => 'Data saved successfully', 'status' => true], 201);
     }
 }

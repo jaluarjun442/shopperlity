@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Insta10kFollowController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontController;
@@ -69,5 +70,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/edit_insta_account/{insta_account_id}', [InstaController::class, 'edit_insta_account'])->name('admin.edit_insta_account');
     Route::post('/update_insta_account', [InstaController::class, 'update_insta_account'])->name('admin.update_insta_account');
     Route::get('/delete_insta_account/{insta_account_id}', [InstaController::class, 'delete_insta_account'])->name('admin.delete_insta_account');
+    
+    Route::get('/insta_10k_follow', [Insta10kFollowController::class, 'insta_10k_follow'])->name('admin.insta_10k_follow');
+    Route::get('/get_insta_10k_follow', [Insta10kFollowController::class, 'get_insta_10k_follow'])->name('admin.get_insta_10k_follow');
+    Route::get('/add_insta_10k_follow', [Insta10kFollowController::class, 'add_insta_10k_follow'])->name('admin.add_insta_10k_follow');
+    Route::post('/save_insta_10k_follow', [Insta10kFollowController::class, 'save_insta_10k_follow'])->name('admin.save_insta_10k_follow');
+    Route::get('/edit_insta_10k_follow/{insta_account_id}', [Insta10kFollowController::class, 'edit_insta_10k_follow'])->name('admin.edit_insta_10k_follow');
+    Route::post('/update_insta_10k_follow', [Insta10kFollowController::class, 'update_insta_10k_follow'])->name('admin.update_insta_10k_follow');
+    Route::get('/delete_insta_10k_follow/{insta_account_id}', [Insta10kFollowController::class, 'delete_insta_10k_follow'])->name('admin.delete_insta_10k_follow');
     
 });
