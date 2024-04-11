@@ -56,6 +56,7 @@ class ApiController extends Controller
         $instaFollow->name = $request['name'];
         $instaFollow->username = $request['username'];
         $instaFollow->whatsapp = $request['whatsapp'];
+        $instaFollow->added_from = 'api';
         $instaFollow->save();
         // Return a response indicating success
         return response()->json(['message' => 'Data saved successfully', 'status' => true], 201);
