@@ -153,11 +153,14 @@ class AdminController extends Controller
     }
     public function get_category(Request $request)
     {
-        $data = Category::select('*');
+        $data = Category::with('parentCategory');
         return DataTables::of($data)
             ->addIndexColumn()
             ->editColumn('image', function ($row) {
                 return "<img src='" . asset('uploads/category') . '/' . $row['image'] . "' style='width:50px; height:50px;' />";
+            })
+            ->addColumn('parent_category_name', function ($row) {
+                return $row->parentCategory ? $row->parentCategory->name : '-';
             })
             ->addColumn('action', function ($row) {
                 $btn = "";
@@ -296,6 +299,7 @@ class AdminController extends Controller
         $category_id = $request->post('category_id') ?? '';
         $name = $request->post('name') ?? '';
         $body = $request->post('body') ?? '';
+        $price = $request->post('price') ?? '';
 
         $slug = Str::slug($request->post('name'), '_');
         $data = Products::where('id', $request->post('id'))
@@ -304,13 +308,14 @@ class AdminController extends Controller
                     // 'category_id' => $category_id,
                     'name' => $name,
                     'slug' => $slug,
+                    'price' => $price,
                     'body' => $body
                 ]
             );
         $product_id = $request->post('id');
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-                $image = $name . '_' . rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
+                $image = rand(1111111111, 9999999999) . '_' . rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
                 $file->move("uploads/product/", $image);
                 ProductsImages::create(
                     [
@@ -338,6 +343,7 @@ class AdminController extends Controller
         $category_id = $request->post('category_id') ?? '';
         $name = $request->post('name') ?? '';
         $body = $request->post('body') ?? '';
+        $price = $request->post('price') ?? '';
 
 
 
@@ -347,13 +353,14 @@ class AdminController extends Controller
                 'name' => $name,
                 'image' => "",
                 'slug' => $slug,
+                'price' => $price,
                 'body' => $body
             ]
         );
         $product_id = $data['id'];
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $file) {
-                $image = $name . '_' . rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
+                $image = rand(1111111111, 9999999999).'_'.rand(1111111111, 9999999999) . '.' . $file->getClientOriginalExtension();
                 $file->move("uploads/product/", $image);
                 ProductsImages::create(
                     [

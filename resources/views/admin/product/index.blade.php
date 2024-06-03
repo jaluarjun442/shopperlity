@@ -19,6 +19,7 @@
                                 <th>No</th>
                                 <th>Image</th>
                                 <th>Name</th>
+                                <th>Price</th>
                                 <th width="">Action</th>
                             </tr>
                         </thead>
@@ -47,6 +48,10 @@
                 {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'price',
+                    name: 'price'
                 },
                 {
                     data: 'action',

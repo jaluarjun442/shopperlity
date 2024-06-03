@@ -27,9 +27,13 @@
                                 </div>
                                 <button type="button" class="btn btn-secondary add-image">Add More Image</button>
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-9">
                                 <label for="inputEmail4">Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Price</label>
+                                <input type="text" class="form-control" id="price" name="price" placeholder="Price">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Body</label>
@@ -129,6 +133,9 @@
                     required: true,
                 },
                 name: {
+                    required: true,
+                },
+                price: {
                     required: true,
                 },
             }

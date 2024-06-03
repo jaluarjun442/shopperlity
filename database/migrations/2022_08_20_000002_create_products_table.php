@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->integer('store_id')->nullable();
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
+            $table->float('price')->default('0.00')->nullable();
             $table->string('image')->nullable();
             $table->text('body')->nullable();
             $table->integer('views')->nullable();

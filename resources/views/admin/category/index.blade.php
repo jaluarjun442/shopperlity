@@ -19,6 +19,7 @@
                                 <th>No</th>
                                 <th>Image</th>
                                 <th>Name</th>
+                                <th>Parent</th>
                                 <th width="100px">Action</th>
                             </tr>
                         </thead>
@@ -47,6 +48,10 @@
                 {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'parent_category_name',
+                    name: 'parent_category_name'
                 },
                 {
                     data: 'action',

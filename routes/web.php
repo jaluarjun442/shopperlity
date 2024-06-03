@@ -23,10 +23,9 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes(['register' => false]);
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
-
-
+Route::get('/category/{slug}', [FrontController::class, 'category'])->name('category');
 Route::get('/product/{id}/{slug}', [FrontController::class, 'product'])->name('product');
-Route::get('/category/{id}/{slug}', [FrontController::class, 'category'])->name('category');
+
 Route::get('/page/{slug}', [FrontController::class, 'page'])->name('page');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
