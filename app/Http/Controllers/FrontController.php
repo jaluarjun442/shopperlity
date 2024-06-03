@@ -26,9 +26,9 @@ class FrontController extends Controller
      */
     public function index()
     {
-        $data = Products::latest()->paginate(6);
+        $latest_data = Products::latest()->limit(8)->get();
         $category_data = Category::where('parent_category_id', null)->get();
-        return view('welcome', compact('data', 'category_data'));
+        return view('welcome', compact('latest_data', 'category_data'));
     }
     public function page($page)
     {
@@ -47,13 +47,11 @@ class FrontController extends Controller
         $data = Products::with('categories.category')
             ->whereHas('categories.category', function ($query) use ($slug) {
                 $query->where('slug', $slug);
-                // $query->where('id', $category_id);
             })
             ->orderBy('id', 'desc')
             ->latest()
             ->paginate(8);
         $category_data = Category::with('childCategory')->where('slug', $slug)->first();
-        // dd($category_data);
         if ($request->ajax()) {
             return view('front.category.products_data', compact('data'))->render();
         }
@@ -61,7 +59,7 @@ class FrontController extends Controller
     }
     public function product($id, $slug)
     {
-        $data = Products::with(['categories','products_attributes','products_images'])
+        $data = Products::with(['categories', 'products_attributes', 'products_images'])
             ->where('id', $id)
             ->first();
         if ($data) {
